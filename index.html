@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parábolas 99</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F8FAFC;
+      --surface: #FFFFFF;
+      --border: #E2E8F0;
+      --text: #0F172A;
+      --muted: #64748B;
+      --accent: #0284C7;
+      --accent-hover: #0369A1;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .gate-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .gate-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      max-width: 560px;
+      width: 100%;
+      padding: 40px 32px;
+      text-align: center;
+    }
+    .gate-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .lang-btn {
+      padding: 24px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #fff;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: center;
+    }
+    .lang-btn:hover {
+      border-color: var(--accent);
+      background: #F0F9FF;
+    }
+    .lang-btn h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 24px;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+    .lang-btn p {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .brand {
+      font-family: 'Fraunces', serif;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 20px 56px;
+    }
+    .controls-bar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    select, button, input {
+      font-family: inherit;
+      font-size: 13px;
+    }
+    select, input {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+    }
+    .btn {
+      padding: 7px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn:hover { background: #F1F5F9; }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .meta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .prompt-text {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .answer-box {
+      background: #FFFFFF;
+      border: 1px solid #BAE6FD;
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 8px;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+    .answer-cover-card {
+      width: 100%;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px 16px;
+      margin-top: 8px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent);
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .answer-cover-card:hover {
+      border-color: var(--accent);
+      background: #F8FAFC;
+    }
+    .ans-main {
+      font-size: 20px;
+      font-weight: 700;
+      color: #0284C7;
+      margin-bottom: 6px;
+    }
+    .verse {
+      font-size: 20px;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      color: #0284C7;
+    }
+    .typing-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    @media (max-width: 640px) {
+      .typing-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    const QUESTIONS = [{"id":1,"code":"Q1","chapterId":1,"chapterTitleEs":"1. Parábola","chapterTitleKo":"1장. 비유","termEs":"La parábola","termKo":"비유","questionEs":"¿Qué significa en parábola la parábola?","questionKo":"비유의 의미는 무엇인가?","answerEs":"Es para ocultar el misterio antes de la aparición de la realidad, se compara con algo similar","answerKo":"실체가 나타나기 전에 비밀을 감추기 위해 비슷한 것으로 빗대어 말한 것","verseEs":"Sal 78:2","verseKo":"시 78:2"},{"id":2,"code":"Q2","chapterId":2,"chapterTitleEs":"2. Semilla, campo, árbol, ave","chapterTitleKo":"2장. 씨, 밭, 나무, 새","termEs":"La semilla","termKo":"씨","questionEs":"¿Qué significa en parábola la semilla?","questionKo":"씨의 의미는?","answerEs":"Palabra","answerKo":"말씀","verseEs":"Lc 8:11, 1P 1:23","verseKo":"눅 8:11, 벧전 1:23"},{"id":3,"code":"Q3","chapterId":2,"chapterTitleEs":"2. Semilla, campo, árbol, ave","chapterTitleKo":"2장. 씨, 밭, 나무, 새","termEs":"La semilla de Satanás","termKo":"사단의 씨","questionEs":"¿Qué significa en parábola la semilla de Satanás?","questionKo":"사단의 씨의 의미는?","answerEs":"Falsa doctrina","answerKo":"거짓 교리","verseEs":"Jn 8:44, Mt 13:25","verseKo":"요 8:44, 마 13:25"},{"id":4,"code":"Q4","chapterId":2,"chapterTitleEs":"2. Semilla, campo, árbol, ave","chapterTitleKo":"2장. 씨, 밭, 나무, 새","termEs":"El campo","termKo":"밭","questionEs":"¿Qué significa en parábola el campo?","questionKo":"밭의 의미는?","answerEs":"Corazón del hombre, mundo","answerKo":"사람의 마음, 세상","verseEs":"Lc 8:15, 1Co 3:9, Mt 13:38","verseKo":"눅 8:15, 고전 3:9, 마 13:38"},{"id":5,"code":"Q5","chapterId":2,"chapterTitleEs":"2. Semilla, campo, árbol, ave","chapterTitleKo":"2장. 씨, 밭, 나무, 새","termEs":"Su campo (el campo de Jesús)","termKo":"자기 밭 (예수님의 밭)","questionEs":"¿Qué significa en parábola su campo (el campo de Jesús)?","questionKo":"자기 밭 / 예수님의 밭의 의미는?","answerEs":"Las iglesias de Jesús","answerKo":"예수님의 교회들","verseEs":"Mt 13:24","verseKo":"마 13:24"},{"id":6,"code":"Q6","chapterId":2,"chapterTitleEs":"2. Semilla, campo, árbol, ave","chapterTitleKo":"2장. 씨, 밭, 나무, 새","termEs":"El árbol","termKo":"나무","questionEs":"¿Qué significa en parábola el árbol?","questionKo":"나무의 의미는?","answerEs":"El hombre interior renacido de la semilla que es la palabra (o pastor)","answerKo":"말씀의 씨로 거듭난 속사람 또는 목자","verseEs":"Jn 15:1","verseKo":"요 15:1"},{"id":7,"code":"Q7","chapterId":2,"chapterTitleEs":"2. Semilla, campo, árbol, ave","chapterTitleKo":"2장. 씨, 밭, 나무, 새","termEs":"La rama","termKo":"가지","questionEs":"¿Qué significa en parábola la rama?","questionKo":"가지의 의미는?","answerEs":"Discípulo","answerKo":"제자","verseEs":"Jn 15:5","verseKo":"요 15:5"},{"id":8,"code":"Q8","chapterId":2,"chapterTitleEs":"2. Semilla, campo, árbol, ave","chapterTitleKo":"2장. 씨, 밭, 나무, 새","termEs":"La hoja","termKo":"잎사귀","questionEs":"¿Qué significa en parábola la hoja?","questionKo":"잎사귀의 의미는?","answerEs":"Evangelista","answerKo":"전도자","verseEs":"Ez 47:12, Ap 22:2","verseKo":"겔 47:12, 계 22:2"},{"id":9,"code":"Q9","chapterId":2,"chapterTitleEs":"2. Semilla, campo, árbol, ave","chapterTitleKo":"2장. 씨, 밭, 나무, 새","termEs":"El fruto","termKo":"열매","questionEs":"¿Qué significa en parábola el fruto?","questionKo":"열매의 의미는?","answerEs":"Palabra, santo producto de haber dado la palabra","answerKo":"말씀, 말씀을 전하여 맺은 성도","verseEs":"Stg 1:18, Ap 14:4","verseKo":"약 1:18, 계 14:4"},{"id":10,"code":"Q10","chapterId":2,"chapterTitleEs":"2. Semilla, campo, árbol, ave","chapterTitleKo":"2장. 씨, 밭, 나무, 새","termEs":"El ave","termKo":"새","questionEs":"¿Qué significa en parábola el ave?","questionKo":"새의 의미는?","answerEs":"Espíritu","answerKo":"영","verseEs":"Mt 3:16, Ap 19:17","verseKo":"마 3:16, 계 19:17"},{"id":11,"code":"Q11","chapterId":2,"chapterTitleEs":"2. Semilla, campo, árbol, ave","chapterTitleKo":"2장. 씨, 밭, 나무, 새","termEs":"El ave de Satanás","termKo":"사단의 새","questionEs":"¿Qué significa en parábola el ave de Satanás?","questionKo":"사단의 새의 의미는?","answerEs":"Espíritu maligno","answerKo":"악령","verseEs":"Dn 4:21, Ap 18:2","verseKo":"단 4:21, 계 18:2"},{"id":12,"code":"Q12","chapterId":3,"chapterTitleEs":"3. Alimento y levadura","chapterTitleKo":"3장. 양식과 누룩","termEs":"El alimento","termKo":"양식","questionEs":"¿Qué significa en parábola el alimento?","questionKo":"양식의 의미는?","answerEs":"Palabra","answerKo":"말씀","verseEs":"Jn 6:27, Is 55:1-2, Am 8:11","verseKo":"요 6:27, 사 55:1-2, 암 8:11"},{"id":13,"code":"Q13","chapterId":3,"chapterTitleEs":"3. Alimento y levadura","chapterTitleKo":"3장. 양식과 누룩","termEs":"El alimento de Satanás","termKo":"사단의 양식","questionEs":"¿Qué significa en parábola el alimento de Satanás?","questionKo":"사단의 양식의 의미는?","answerEs":"Falsa doctrina","answerKo":"거짓 교리","verseEs":"Pr 4:17, Mal 1:7, Is 28:7-8","verseKo":"잠 4:17, 말 1:7, 사 28:7-8"},{"id":14,"code":"Q14","chapterId":3,"chapterTitleEs":"3. Alimento y levadura","chapterTitleKo":"3장. 양식과 누룩","termEs":"La levadura","termKo":"누룩","questionEs":"¿Qué significa en parábola la levadura?","questionKo":"누룩의 의미는?","answerEs":"Doctrina","answerKo":"교리 / 교훈","verseEs":"Mt 13:33","verseKo":"마 13:33"},{"id":15,"code":"Q15","chapterId":3,"chapterTitleEs":"3. Alimento y levadura","chapterTitleKo":"3장. 양식과 누룩","termEs":"La levadura de Satanás","termKo":"사단의 누룩","questionEs":"¿Qué significa en parábola la levadura de Satanás?","questionKo":"사단의 누룩의 의미는?","answerEs":"Doctrina de Satanás","answerKo":"사단의 교리 / 사단의 교훈","verseEs":"Mt 16:6-12","verseKo":"마 16:6-12"},{"id":16,"code":"Q16","chapterId":3,"chapterTitleEs":"3. Alimento y levadura","chapterTitleKo":"3장. 양식과 누룩","termEs":"Ser leudado","termKo":"누룩에 부풀다","questionEs":"¿Qué significa en sentido figurado ser leudado?","questionKo":"누룩에 부풀다의 의미는?","answerEs":"Tener un cambio en la fe","answerKo":"신앙의 변화를 겪음 / 마음이 부풂","verseEs":"-","verseKo":"-"},{"id":17,"code":"Q17","chapterId":4,"chapterTitleEs":"4. Recipiente, balanza, vara","chapterTitleKo":"4장. 그릇, 저울, 지팡이","termEs":"El recipiente","termKo":"그릇","questionEs":"¿Qué significa en parábola el recipiente?","questionKo":"그릇의 의미는?","answerEs":"Hombre, iglesia","answerKo":"사람, 교회","verseEs":"Hch 9:15, Mt 13:47-48","verseKo":"행 9:15, 마 13:47-48"},{"id":18,"code":"Q18","chapterId":4,"chapterTitleEs":"4. Recipiente, balanza, vara","chapterTitleKo":"4장. 그릇, 저울, 지팡이","termEs":"La balanza","termKo":"저울","questionEs":"¿Qué significa en parábola la balanza?","questionKo":"저울의 의미는?","answerEs":"Palabra","answerKo":"말씀","verseEs":"Pr 24:12","verseKo":"잠 24:12"},{"id":19,"code":"Q19","chapterId":4,"chapterTitleEs":"4. Recipiente, balanza, vara","chapterTitleKo":"4장. 그릇, 저울, 지팡이","termEs":"La balanza de Satanás","termKo":"사단의 저울","questionEs":"¿Qué significa en parábola la balanza de Satanás?","questionKo":"사단의 저울의 의미는?","answerEs":"Palabra de Satanás (falsa doctrina)","answerKo":"사단의 말 / 거짓 교리","verseEs":"Pr 11:1","verseKo":"잠 11:1"},{"id":20,"code":"Q20","chapterId":4,"chapterTitleEs":"4. Recipiente, balanza, vara","chapterTitleKo":"4장. 그릇, 저울, 지팡이","termEs":"La vara","termKo":"지팡이","questionEs":"¿Qué significa en parábola la vara?","questionKo":"지팡이의 의미는?","answerEs":"Palabra y hombre","answerKo":"말씀과 사람","verseEs":"Is 11:4, Sal 89:32","verseKo":"사 11:4, 시 89:32"},{"id":21,"code":"Q21","chapterId":4,"chapterTitleEs":"4. Recipiente, balanza, vara","chapterTitleKo":"4장. 그릇, 저울, 지팡이","termEs":"La vara de hierro","termKo":"철장","questionEs":"¿Qué significa en parábola la vara de hierro?","questionKo":"철장의 의미는?","answerEs":"Autoridad para gobernar","answerKo":"다스리는 권세 / 치리권","verseEs":"Sal 2:6-9, Ap 2:26-27","verseKo":"시 2:6-9, 계 2:26-27"},{"id":22,"code":"Q22","chapterId":5,"chapterTitleEs":"5. Fuego, incensario, olla","chapterTitleKo":"5장. 불, 향로, 가마","termEs":"El fuego","termKo":"불","questionEs":"¿Qué significa en parábola el fuego?","questionKo":"불의 의미는?","answerEs":"Palabra","answerKo":"말씀","verseEs":"Jer 5:14, Jer 23:29","verseKo":"렘 5:14, 렘 23:29"},{"id":23,"code":"Q23","chapterId":5,"chapterTitleEs":"5. Fuego, incensario, olla","chapterTitleKo":"5장. 불, 향로, 가마","termEs":"El incensario","termKo":"향로","questionEs":"¿Qué significa en parábola el incensario?","questionKo":"향로의 의미는?","answerEs":"Hombre","answerKo":"사람","verseEs":"Ap 8:3","verseKo":"계 8:3"},{"id":24,"code":"Q24","chapterId":5,"chapterTitleEs":"5. Fuego, incensario, olla","chapterTitleKo":"5장. 불, 향로, 가마","termEs":"El incienso","termKo":"향","questionEs":"¿Qué significa en parábola el incienso?","questionKo":"향의 의미는?","answerEs":"Oración de los santos","answerKo":"성도들의 기도","verseEs":"Ap 5:8","verseKo":"계 5:8"},{"id":25,"code":"Q25","chapterId":5,"chapterTitleEs":"5. Fuego, incensario, olla","chapterTitleKo":"5장. 불, 향로, 가마","termEs":"El humo de incienso","termKo":"향연","questionEs":"¿Qué significa en parábola el humo de incienso?","questionKo":"향연의 의미는?","answerEs":"La oración que es elevada","answerKo":"올라가는 기도","verseEs":"Ap 8:3-5","verseKo":"계 8:3-5"},{"id":26,"code":"Q26","chapterId":5,"chapterTitleEs":"5. Fuego, incensario, olla","chapterTitleKo":"5장. 불, 향로, 가마","termEs":"La olla","termKo":"가마 / 솥","questionEs":"¿Qué significa en parábola la olla?","questionKo":"가마/솥의 의미는?","answerEs":"Iglesia","answerKo":"교회","verseEs":"Zac 14:20-21","verseKo":"슥 14:20-21"},{"id":27,"code":"Q27","chapterId":6,"chapterTitleEs":"6. Luz, tinieblas, ojo, ropa","chapterTitleKo":"6장. 빛, 어둠, 눈, 옷","termEs":"La luz","termKo":"빛","questionEs":"¿Qué significa en parábola la luz?","questionKo":"빛의 의미는?","answerEs":"Palabra de vida","answerKo":"생명의 말씀","verseEs":"Jn 1:1-5, 1Ts 5:1-6","verseKo":"요 1:1-5, 살전 5:1-6"},{"id":28,"code":"Q28","chapterId":6,"chapterTitleEs":"6. Luz, tinieblas, ojo, ropa","chapterTitleKo":"6장. 빛, 어둠, 눈, 옷","termEs":"Las tinieblas","termKo":"어둠","questionEs":"¿Qué significa en parábola las tinieblas?","questionKo":"어둠의 의미는?","answerEs":"Ignorancia de la palabra","answerKo":"말씀에 대한 무지","verseEs":"Jn 12:35","verseKo":"요 12:35"},{"id":29,"code":"Q29","chapterId":6,"chapterTitleEs":"6. Luz, tinieblas, ojo, ropa","chapterTitleKo":"6장. 빛, 어둠, 눈, 옷","termEs":"El candelabro / candelero","termKo":"등대 / 촛대","questionEs":"¿Qué significan en parábola el candelabro / candelero?","questionKo":"등대 / 촛대의 의미는?","answerEs":"Espíritu y obrero","answerKo":"영과 일꾼/사명자","verseEs":"Ap 4:5, Ap 5:6","verseKo":"계 4:5, 계 5:6"},{"id":30,"code":"Q30","chapterId":6,"chapterTitleEs":"6. Luz, tinieblas, ojo, ropa","chapterTitleKo":"6장. 빛, 어둠, 눈, 옷","termEs":"El ojo","termKo":"눈","questionEs":"¿Qué significa en parábola el ojo?","questionKo":"눈의 의미는?","answerEs":"Espíritu y obrero","answerKo":"영과 일꾼/사명자","verseEs":"Ap 5:6","verseKo":"계 5:6"},{"id":31,"code":"Q31","chapterId":6,"chapterTitleEs":"6. Luz, tinieblas, ojo, ropa","chapterTitleKo":"6장. 빛, 어둠, 눈, 옷","termEs":"El ciego","termKo":"영적 소경","questionEs":"¿Quién es en sentido figurado el ciego?","questionKo":"영적 소경의 의미는?","answerEs":"El que ve la palabra pero no la entiende","answerKo":"말씀을 보아도 깨닫지 못하는 자","verseEs":"Ap 3:17-18, Is 42:18-20","verseKo":"계 3:17-18, 사 42:18-20"},{"id":32,"code":"Q32","chapterId":6,"chapterTitleEs":"6. Luz, tinieblas, ojo, ropa","chapterTitleKo":"6장. 빛, 어둠, 눈, 옷","termEs":"El sordo","termKo":"영적 귀머거리","questionEs":"¿Quién es en sentido figurado el sordo?","questionKo":"영적 귀머거리의 의미는?","answerEs":"El que oye la palabra pero no la entiende","answerKo":"말씀을 들어도 깨닫지 못하는 자","verseEs":"Is 42:18-20","verseKo":"사 42:18-20"},{"id":33,"code":"Q33","chapterId":6,"chapterTitleEs":"6. Luz, tinieblas, ojo, ropa","chapterTitleKo":"6장. 빛, 어둠, 눈, 옷","termEs":"La ropa","termKo":"옷","questionEs":"¿Qué significa en parábola la ropa?","questionKo":"옷의 의미는?","answerEs":"Corazón, acciones, doctrina","answerKo":"마음, 행실, 교리","verseEs":"Ap 22:14, Ap 19:13","verseKo":"계 22:14, 계 19:13"},{"id":34,"code":"Q34","chapterId":6,"chapterTitleEs":"6. Luz, tinieblas, ojo, ropa","chapterTitleKo":"6장. 빛, 어둠, 눈, 옷","termEs":"El vestido de boda","termKo":"혼인잔치 예복 / 세마포","questionEs":"¿Qué significa en parábola el vestido de boda?","questionKo":"혼인잔치 예복 / 세마포의 의미는?","answerEs":"Acciones justas","answerKo":"옳은 행실","verseEs":"Ap 19:8","verseKo":"계 19:8"},{"id":35,"code":"Q35","chapterId":6,"chapterTitleEs":"6. Luz, tinieblas, ojo, ropa","chapterTitleKo":"6장. 빛, 어둠, 눈, 옷","termEs":"El vestido de la ramera","termKo":"음녀의 옷","questionEs":"¿Qué significa en parábola el vestido de la ramera?","questionKo":"음녀의 옷의 의미는?","answerEs":"Falsa doctrina","answerKo":"거짓 교리","verseEs":"Ap 17:4","verseKo":"계 17:4"},{"id":36,"code":"Q36","chapterId":7,"chapterTitleEs":"7. Tesoro y rico","chapterTitleKo":"7장. 보화와 부자","termEs":"El tesoro","termKo":"보화","questionEs":"¿Qué significa en parábola el tesoro?","questionKo":"보화의 의미는?","answerEs":"Palabra","answerKo":"말씀","verseEs":"Pr 16:16","verseKo":"잠 16:16"},{"id":37,"code":"Q37","chapterId":7,"chapterTitleEs":"7. Tesoro y rico","chapterTitleKo":"7장. 보화와 부자","termEs":"El rico","termKo":"영적 부자","questionEs":"¿Quién es en sentido figurado el rico?","questionKo":"영적 부자의 의미는?","answerEs":"Persona que tiene mucha palabra (conocimiento)","answerKo":"말씀/지식이 많은 자","verseEs":"Ap 3:17-18","verseKo":"계 3:17-18"},{"id":38,"code":"Q38","chapterId":8,"chapterTitleEs":"8. Agua, manantial, río","chapterTitleKo":"8장. 물, 샘, 강","termEs":"El agua","termKo":"물","questionEs":"¿Qué significa en parábola el agua?","questionKo":"물의 의미는?","answerEs":"Palabra","answerKo":"말씀","verseEs":"Dt 32:1-2, Jn 15:3","verseKo":"신 32:1-2, 요 15:3"},{"id":39,"code":"Q39","chapterId":8,"chapterTitleEs":"8. Agua, manantial, río","chapterTitleKo":"8장. 물, 샘, 강","termEs":"El manantial","termKo":"샘","questionEs":"¿Qué significa en parábola el manantial?","questionKo":"샘의 의미는?","answerEs":"Pastor y templo (iglesia)","answerKo":"목자와 성전/교회","verseEs":"Zac 13:1, Ap 7:17","verseKo":"슥 13:1, 계 7:17"},{"id":40,"code":"Q40","chapterId":8,"chapterTitleEs":"8. Agua, manantial, río","chapterTitleKo":"8장. 물, 샘, 강","termEs":"El río","termKo":"강","questionEs":"¿Qué significa en parábola el río?","questionKo":"강의 의미는?","answerEs":"Corazón de discípulos y evangelistas","answerKo":"제자들과 전도자의 마음","verseEs":"Jn 7:37-38, Ap 22:1-2","verseKo":"요 7:37-38, 계 22:1-2"},{"id":41,"code":"Q41","chapterId":9,"chapterTitleEs":"9. Mar, pescador, red, pez, barco","chapterTitleKo":"9장. 바다, 어부, 그물, 고기, 배","termEs":"El mar","termKo":"바다","questionEs":"¿Qué significa en parábola el mar?","questionKo":"바다의 의미는?","answerEs":"Mundo","answerKo":"세상","verseEs":"Dn 7:3, 17","verseKo":"단 7:3, 17"},{"id":42,"code":"Q42","chapterId":9,"chapterTitleEs":"9. Mar, pescador, red, pez, barco","chapterTitleKo":"9장. 바다, 어부, 그물, 고기, 배","termEs":"El pescador","termKo":"어부","questionEs":"¿Quién es en parábola el pescador?","questionKo":"어부의 의미는?","answerEs":"Pastor (evangelista)","answerKo":"목자 / 전도자","verseEs":"Mt 4:18-20","verseKo":"마 4:18-20"},{"id":43,"code":"Q43","chapterId":9,"chapterTitleEs":"9. Mar, pescador, red, pez, barco","chapterTitleKo":"9장. 바다, 어부, 그물, 고기, 배","termEs":"La red","termKo":"그물","questionEs":"¿Qué significa en parábola la red?","questionKo":"그물의 의미는?","answerEs":"Palabra","answerKo":"말씀","verseEs":"Mt 13:47-50","verseKo":"마 13:47-50"},{"id":44,"code":"Q44","chapterId":9,"chapterTitleEs":"9. Mar, pescador, red, pez, barco","chapterTitleKo":"9장. 바다, 어부, 그물, 고기, 배","termEs":"El pez","termKo":"물고기","questionEs":"¿Qué significa en parábola el pez?","questionKo":"물고기의 의미는?","answerEs":"Hombre","answerKo":"사람","verseEs":"Mt 13:47-50, Mt 4:18-20","verseKo":"마 13:47-50, 마 4:18-20"},{"id":45,"code":"Q45","chapterId":9,"chapterTitleEs":"9. Mar, pescador, red, pez, barco","chapterTitleKo":"9장. 바다, 어부, 그물, 고기, 배","termEs":"El barco","termKo":"배","questionEs":"¿Qué significa en parábola el barco?","questionKo":"배의 의미는?","answerEs":"Organización como iglesia","answerKo":"교회와 같은 조직체","verseEs":"Ap 8:8-9, Ap 18:17-19","verseKo":"계 8:8-9, 계 18:17-19"},{"id":46,"code":"Q46","chapterId":10,"chapterTitleEs":"10. Bestia, cabeza, cuerno, cola","chapterTitleKo":"10장. 짐승, 머리, 뿔, 꼬리","termEs":"La bestia en general","termKo":"비유한 짐승 일반","questionEs":"¿Qué significa en general la bestia en parábola?","questionKo":"비유한 짐승 일반의 의미는?","answerEs":"Falso pastor","answerKo":"거짓 목자","verseEs":"Sal 49:20","verseKo":"시 49:20"},{"id":47,"code":"Q47","chapterId":10,"chapterTitleEs":"10. Bestia, cabeza, cuerno, cola","chapterTitleKo":"10장. 짐승, 머리, 뿔, 꼬리","termEs":"Los tres tipos de hombres que representan las bestias en los libros proféticos","termKo":"예언서에 등장하는 짐승이 비유하는 3종류의 인물","questionEs":"¿Cuáles son los tres tipos de hombres que representan las bestias en los libros proféticos?","questionKo":"예언서에 등장하는 짐승이 비유하는 3종류의 인물은?","answerEs":"Tres tipos de hombres: traidor, destructor, salvador y sus pertenecientes","answerKo":"배도자, 멸망자, 구원자와 그 소속","verseEs":"-","verseKo":"-"},{"id":48,"code":"Q48","chapterId":10,"chapterTitleEs":"10. Bestia, cabeza, cuerno, cola","chapterTitleKo":"10장. 짐승, 머리, 뿔, 꼬리","termEs":"La cabeza","termKo":"머리","questionEs":"¿Qué significa en parábola la cabeza?","questionKo":"머리의 의미는?","answerEs":"Líder (pastor)","answerKo":"우두머리 / 목자","verseEs":"Is 29:10, Ef 4:15","verseKo":"사 29:10, 엡 4:15"},{"id":49,"code":"Q49","chapterId":10,"chapterTitleEs":"10. Bestia, cabeza, cuerno, cola","chapterTitleKo":"10장. 짐승, 머리, 뿔, 꼬리","termEs":"El cuerno","termKo":"뿔","questionEs":"¿Qué significa en parábola el cuerno?","questionKo":"뿔의 의미는?","answerEs":"Persona que tiene autoridad (anciano) y lucha siendo pertenencia de la cabeza","answerKo":"권세 있는 자/장로, 머리에 속하여 싸우는 자","verseEs":"Ap 5:6, Ap 17:12","verseKo":"계 5:6, 계 17:12"},{"id":50,"code":"Q50","chapterId":10,"chapterTitleEs":"10. Bestia, cabeza, cuerno, cola","chapterTitleKo":"10장. 짐승, 머리, 뿔, 꼬리","termEs":"La cola","termKo":"꼬리","questionEs":"¿Qué significa en parábola la cola?","questionKo":"꼬리의 의미는?","answerEs":"Falso profeta","answerKo":"거짓 선지자","verseEs":"Is 9:15","verseKo":"사 9:15"},{"id":51,"code":"Q51","chapterId":11,"chapterTitleEs":"11. Cordero, vino nuevo, aceite","chapterTitleKo":"11장. 어린양, 새 포도주, 감람유","termEs":"El cordero","termKo":"어린양","questionEs":"¿Quién es el cordero en parábola?","questionKo":"어린양의 의미는?","answerEs":"Jesús","answerKo":"예수님","verseEs":"Jn 1:29","verseKo":"요 1:29"},{"id":52,"code":"Q52","chapterId":11,"chapterTitleEs":"11. Cordero, vino nuevo, aceite","chapterTitleKo":"11장. 어린양, 새 포도주, 감람유","termEs":"La sangre y la carne del cordero","termKo":"어린양의 피와 살","questionEs":"¿Qué significa en parábola la sangre y la carne del cordero?","questionKo":"어린양의 피와 살의 의미는?","answerEs":"La palabra de vida de Jesús","answerKo":"예수님의 생명의 말씀","verseEs":"Jn 6:51-58","verseKo":"요 6:51-58"},{"id":53,"code":"Q53","chapterId":11,"chapterTitleEs":"11. Cordero, vino nuevo, aceite","chapterTitleKo":"11장. 어린양, 새 포도주, 감람유","termEs":"El vino nuevo","termKo":"새 포도주","questionEs":"¿Qué significa en parábola el vino nuevo?","questionKo":"새 포도주의 의미는?","answerEs":"La palabra revelada nueva","answerKo":"새 계시 말씀","verseEs":"Is 25:6-8, Lc 5:37-38, Ap 6:6","verseKo":"사 25:6-8, 눅 5:37-38, 계 6:6"},{"id":54,"code":"Q54","chapterId":11,"chapterTitleEs":"11. Cordero, vino nuevo, aceite","chapterTitleKo":"11장. 어린양, 새 포도주, 감람유","termEs":"El vino de Satanás","termKo":"사단의 포도주","questionEs":"¿Qué significa en parábola el vino de Satanás?","questionKo":"사단의 포도주의 의미는?","answerEs":"Falsa doctrina","answerKo":"거짓 교리","verseEs":"Dt 32:32-33","verseKo":"신 32:32-33"},{"id":55,"code":"Q55","chapterId":11,"chapterTitleEs":"11. Cordero, vino nuevo, aceite","chapterTitleKo":"11장. 어린양, 새 포도주, 감람유","termEs":"Los odres nuevos","termKo":"새 부대","questionEs":"¿Qué significan en parábola los odres nuevos?","questionKo":"새 부대의 의미는?","answerEs":"Pastor nuevo y discípulos","answerKo":"새 목자와 제자들","verseEs":"Lc 5:37-38, Hch 9:15","verseKo":"눅 5:37-38, 행 9:15"},{"id":56,"code":"Q56","chapterId":11,"chapterTitleEs":"11. Cordero, vino nuevo, aceite","chapterTitleKo":"11장. 어린양, 새 포도주, 감람유","termEs":"El aceite de oliva","termKo":"감람유","questionEs":"¿Qué significa en parábola el aceite de oliva?","questionKo":"감람유의 의미는?","answerEs":"La palabra del testimonio del testigo","answerKo":"증인의 증거의 말씀","verseEs":"Zac 4:11-14, Ap 11:3-4","verseKo":"슥 4:11-14, 계 11:3-4"},{"id":57,"code":"Q57","chapterId":12,"chapterTitleEs":"12. Monte, piedra, ídolo","chapterTitleKo":"12장. 산, 돌, 우상","termEs":"El monte","termKo":"산","questionEs":"¿Qué significa en parábola el monte?","questionKo":"산의 의미는?","answerEs":"Iglesia, templo","answerKo":"교회, 성전","verseEs":"Is 2:2-3, Ap 14:1-3","verseKo":"사 2:2-3, 계 14:1-3"},{"id":58,"code":"Q58","chapterId":12,"chapterTitleEs":"12. Monte, piedra, ídolo","chapterTitleKo":"12장. 산, 돌, 우상","termEs":"Los tres tipos de monte en las profecías","termKo":"예언서에 나타나는 세 가지 산","questionEs":"¿Cuáles son los tres tipos de monte que aparecen en las profecías?","questionKo":"예언서에 나타나는 세 가지 산은?","answerEs":"Monte de traición, monte de destrucción, monte de salvación","answerKo":"배도의 산, 멸망의 산, 구원의 산","verseEs":"-","verseKo":"-"},{"id":59,"code":"Q59","chapterId":12,"chapterTitleEs":"12. Monte, piedra, ídolo","chapterTitleKo":"12장. 산, 돌, 우상","termEs":"La piedra","termKo":"돌","questionEs":"¿Qué significa en parábola la piedra?","questionKo":"돌의 의미는?","answerEs":"Palabra del juicio y pastor que recibe autoridad para juzgar","answerKo":"심판의 말씀 및 심판 권세를 받은 목자","verseEs":"Mt 21:42-46, 1P 2:4-8","verseKo":"마 21:42-46, 벧전 2:4-8"},{"id":60,"code":"Q60","chapterId":12,"chapterTitleEs":"12. Monte, piedra, ídolo","chapterTitleKo":"12장. 산, 돌, 우상","termEs":"El ídolo","termKo":"우상","questionEs":"¿Quién es en parábola el ídolo?","questionKo":"우상의 의미는?","answerEs":"Falso maestro (pastor)","answerKo":"거짓 스승 / 거짓 목자","verseEs":"Hab 2:18","verseKo":"합 2:18"},{"id":61,"code":"Q61","chapterId":13,"chapterTitleEs":"13. Sello, trompeta, cántico","chapterTitleKo":"13장. 인, 나팔, 노래","termEs":"El sello (marca)","termKo":"인 / 표","questionEs":"¿Qué significa en parábola el sello (marca)?","questionKo":"인/표의 의미는?","answerEs":"Palabra de Dios","answerKo":"하나님의 말씀","verseEs":"Jn 1:1, Jn 3:31-34","verseKo":"요 1:1, 요 3:31-34"},{"id":62,"code":"Q62","chapterId":13,"chapterTitleEs":"13. Sello, trompeta, cántico","chapterTitleKo":"13장. 인, 나팔, 노래","termEs":"El sello (marca) de Satanás","termKo":"사단의 인 / 표","questionEs":"¿Qué significa en parábola el sello (marca) de Satanás?","questionKo":"사단의 인/표의 의미는?","answerEs":"Palabra de falsa doctrina","answerKo":"사단의 거짓 교리 말씀","verseEs":"-","verseKo":"-"},{"id":63,"code":"Q63","chapterId":13,"chapterTitleEs":"13. Sello, trompeta, cántico","chapterTitleKo":"13장. 인, 나팔, 노래","termEs":"El sonido de la trompeta","termKo":"나팔 소리","questionEs":"¿Qué significa en parábola el sonido de la trompeta?","questionKo":"나팔 소리의 의미는?","answerEs":"Palabra que anuncia","answerKo":"알리는/선포하는 말씀","verseEs":"Is 58:1, Is 18:3","verseKo":"사 58:1, 사 18:3"},{"id":64,"code":"Q64","chapterId":13,"chapterTitleEs":"13. Sello, trompeta, cántico","chapterTitleKo":"13장. 인, 나팔, 노래","termEs":"La trompeta","termKo":"나팔","questionEs":"¿Quién es en parábola la trompeta?","questionKo":"나팔의 의미는?","answerEs":"Hombre","answerKo":"사람 / 육체","verseEs":"Ap 8:2","verseKo":"계 8:2"},{"id":65,"code":"Q65","chapterId":13,"chapterTitleEs":"13. Sello, trompeta, cántico","chapterTitleKo":"13장. 인, 나팔, 노래","termEs":"El trompetista","termKo":"나팔수","questionEs":"¿Quién es en parábola el trompetista?","questionKo":"나팔수의 의미는?","answerEs":"Espíritu","answerKo":"영","verseEs":"Ap 8:2","verseKo":"계 8:2"},{"id":66,"code":"Q66","chapterId":13,"chapterTitleEs":"13. Sello, trompeta, cántico","chapterTitleKo":"13장. 인, 나팔, 노래","termEs":"El cántico en general","termKo":"노래 일반","questionEs":"¿Qué significa en parábola el cántico en general?","questionKo":"노래 일반의 의미는?","answerEs":"Palabra que se predica","answerKo":"전파되는 말씀","verseEs":"-","verseKo":"-"},{"id":67,"code":"Q67","chapterId":13,"chapterTitleEs":"13. Sello, trompeta, cántico","chapterTitleKo":"13장. 인, 나팔, 노래","termEs":"El cántico de Moisés","termKo":"모세의 노래","questionEs":"¿Qué significa en parábola el cántico de Moisés?","questionKo":"모세의 노래의 의미는?","answerEs":"Palabra del Antiguo Testamento","answerKo":"구약의 말씀","verseEs":"-","verseKo":"-"},{"id":68,"code":"Q68","chapterId":13,"chapterTitleEs":"13. Sello, trompeta, cántico","chapterTitleKo":"13장. 인, 나팔, 노래","termEs":"El cántico del Cordero","termKo":"어린양의 노래","questionEs":"¿Qué significa en parábola el cántico del Cordero?","questionKo":"어린양의 노래의 의미는?","answerEs":"Palabra del Nuevo Testamento","answerKo":"신약의 말씀","verseEs":"-","verseKo":"-"},{"id":69,"code":"Q69","chapterId":13,"chapterTitleEs":"13. Sello, trompeta, cántico","chapterTitleKo":"13장. 인, 나팔, 노래","termEs":"El cántico nuevo","termKo":"새 노래","questionEs":"¿Qué significa en parábola el cántico nuevo?","questionKo":"새 노래의 의미는?","answerEs":"Palabra de la realidad cumplida del Apocalipsis","answerKo":"계시록 실상 성취의 말씀","verseEs":"Ap 14:3","verseKo":"계 14:3"},{"id":70,"code":"Q70","chapterId":14,"chapterTitleEs":"14. Cuatro seres vivientes, viento, aliento de vida","chapterTitleKo":"14장. 네 생물, 바람, 생기","termEs":"Los cuatro seres vivientes","termKo":"네 생물","questionEs":"¿Quiénes son los cuatro seres vivientes en parábola?","questionKo":"네 생물의 의미는?","answerEs":"Cuatro arcángeles","answerKo":"네 천사장","verseEs":"Ap 4:6-8","verseKo":"계 4:6-8"},{"id":71,"code":"Q71","chapterId":14,"chapterTitleEs":"14. Cuatro seres vivientes, viento, aliento de vida","chapterTitleKo":"14장. 네 생물, 바람, 생기","termEs":"El viento","termKo":"바람","questionEs":"¿Qué significa en parábola el viento?","questionKo":"바람의 의미는?","answerEs":"Ángel y juicio","answerKo":"천사와 심판","verseEs":"Dn 7:2, Heb 1:7, Ap 6:12-13","verseKo":"단 7:2, 히 1:7, 계 6:12-13"},{"id":72,"code":"Q72","chapterId":14,"chapterTitleEs":"14. Cuatro seres vivientes, viento, aliento de vida","chapterTitleKo":"14장. 네 생물, 바람, 생기","termEs":"El viento sopla","termKo":"바람이 분다","questionEs":"¿Qué significa en sentido figurado el viento sopla?","questionKo":"바람이 분다의 의미는?","answerEs":"Juicio por medio de los ángeles","answerKo":"천사들을 통한 심판","verseEs":"-","verseKo":"-"},{"id":73,"code":"Q73","chapterId":14,"chapterTitleEs":"14. Cuatro seres vivientes, viento, aliento de vida","chapterTitleKo":"14장. 네 생물, 바람, 생기","termEs":"Detener el viento","termKo":"바람을 붙잡다 / 멈추다","questionEs":"¿Qué significa en sentido figurado detener el viento?","questionKo":"바람을 붙잡다/멈추다의 의미는?","answerEs":"Suspender el juicio por medio de los ángeles","answerKo":"천사들을 통한 심판의 보류/중단","verseEs":"-","verseKo":"-"},{"id":74,"code":"Q74","chapterId":14,"chapterTitleEs":"14. Cuatro seres vivientes, viento, aliento de vida","chapterTitleKo":"14장. 네 생물, 바람, 생기","termEs":"El aliento de vida","termKo":"생기","questionEs":"¿Qué significa en parábola el aliento de vida?","questionKo":"생기의 의미는?","answerEs":"Palabra de vida","answerKo":"생명의 말씀","verseEs":"Gn 2:7, Ap 11:11","verseKo":"창 2:7, 계 11:11"},{"id":75,"code":"Q75","chapterId":15,"chapterTitleEs":"15. Muerte, sepultura, resurrección","chapterTitleKo":"15장. 사망, 무덤, 부활","termEs":"La muerte","termKo":"사망","questionEs":"¿Qué significa en parábola la muerte?","questionKo":"사망의 의미는?","answerEs":"Estado sin palabra de vida","answerKo":"생명의 말씀이 없는 상태","verseEs":"Ez 18:4","verseKo":"겔 18:4"},{"id":76,"code":"Q76","chapterId":15,"chapterTitleEs":"15. Muerte, sepultura, resurrección","chapterTitleKo":"15장. 사망, 무덤, 부활","termEs":"La sepultura","termKo":"무덤","questionEs":"¿Qué significa en parábola la sepultura?","questionKo":"무덤의 의미는?","answerEs":"Organización de falsa doctrina","answerKo":"거짓 교리의 조직체","verseEs":"Mt 23:27-28","verseKo":"마 23:27-28"},{"id":77,"code":"Q77","chapterId":15,"chapterTitleEs":"15. Muerte, sepultura, resurrección","chapterTitleKo":"15장. 사망, 무덤, 부활","termEs":"La resurrección","termKo":"부활","questionEs":"¿Qué significa en parábola la resurrección?","questionKo":"부활의 의미는?","answerEs":"Lo que revive a través de la palabra de vida","answerKo":"생명의 말씀을 통해 다시 살아나는 것","verseEs":"Jn 5:24-29","verseKo":"요 5:24-29"},{"id":78,"code":"Q78","chapterId":16,"chapterTitleEs":"16. Esposo, esposa, viuda, huérfano","chapterTitleKo":"16장. 남편, 아내, 과부, 고아","termEs":"El esposo","termKo":"남편","questionEs":"¿Qué significa en parábola el esposo?","questionKo":"남편의 의미는?","answerEs":"Espíritu","answerKo":"영","verseEs":"Os 2:19-20","verseKo":"호 2:19-20"},{"id":79,"code":"Q79","chapterId":16,"chapterTitleEs":"16. Esposo, esposa, viuda, huérfano","chapterTitleKo":"16장. 남편, 아내, 과부, 고아","termEs":"La esposa","termKo":"아내","questionEs":"¿Qué significa en parábola la esposa?","questionKo":"아내의 의미는?","answerEs":"Carne","answerKo":"육체","verseEs":"Os 2:19-20","verseKo":"호 2:19-20"},{"id":80,"code":"Q80","chapterId":16,"chapterTitleEs":"16. Esposo, esposa, viuda, huérfano","chapterTitleKo":"16장. 남편, 아내, 과부, 고아","termEs":"La esposa (novia) de Jesús","termKo":"예수님의 신부","questionEs":"¿Quién es en parábola la esposa (novia) de Jesús?","questionKo":"예수님의 신부의 의미는?","answerEs":"Los santos y pastores que se unen espiritualmente con Jesús","answerKo":"예수님과 영육 결혼하는 성도와 목자","verseEs":"Ap 19:7-9, Ap 22:16-17","verseKo":"계 19:7-9, 계 22:16-17"},{"id":81,"code":"Q81","chapterId":16,"chapterTitleEs":"16. Esposo, esposa, viuda, huérfano","chapterTitleKo":"16장. 남편, 아내, 과부, 고아","termEs":"La viuda","termKo":"과부","questionEs":"¿Quién es en parábola la viuda?","questionKo":"과부의 의미는?","answerEs":"Pastor traidor","answerKo":"배도한 목자","verseEs":"Lm 5:3","verseKo":"애 5:3"},{"id":82,"code":"Q82","chapterId":16,"chapterTitleEs":"16. Esposo, esposa, viuda, huérfano","chapterTitleKo":"16장. 남편, 아내, 과부, 고아","termEs":"Los huérfanos","termKo":"고아","questionEs":"¿Quiénes son en parábola los huérfanos?","questionKo":"고아의 의미는?","answerEs":"Los congregados que pertenecen al pastor traidor","answerKo":"배도한 목자에게 속한 교인들","verseEs":"Lm 5:3","verseKo":"애 5:3"},{"id":83,"code":"Q83","chapterId":17,"chapterTitleEs":"17. Jerusalén, Babilonia, guerra, arma","chapterTitleKo":"17장. 예루살렘, 바벨론, 전쟁, 무기","termEs":"Jerusalén","termKo":"예루살렘","questionEs":"¿Qué significa en parábola Jerusalén?","questionKo":"예루살렘의 의미는?","answerEs":"La denominación del pueblo elegido","answerKo":"선민의 교단 / 선민 장막","verseEs":"Mt 24:1-2, Lc 21:20-21","verseKo":"마 24:1-2, 눅 21:20-21"},{"id":84,"code":"Q84","chapterId":17,"chapterTitleEs":"17. Jerusalén, Babilonia, guerra, arma","chapterTitleKo":"17장. 예루살렘, 바벨론, 전쟁, 무기","termEs":"La Nueva Jerusalén en el mundo físico","termKo":"육계의 새 예루살렘","questionEs":"¿Qué significa en el mundo físico la Nueva Jerusalén?","questionKo":"육계의 새 예루살렘의 의미는?","answerEs":"La nueva organización/tabernáculo del pueblo elegido vencedor","answerKo":"새 선민의 장막 / 증거장막성전","verseEs":"Jer 3:17, Zac 8:3","verseKo":"렘 3:17, 슥 8:3"},{"id":85,"code":"Q85","chapterId":17,"chapterTitleEs":"17. Jerusalén, Babilonia, guerra, arma","chapterTitleKo":"17장. 예루살렘, 바벨론, 전쟁, 무기","termEs":"Babilonia","termKo":"바벨론","questionEs":"¿Qué significa en parábola Babilonia?","questionKo":"바벨론의 의미는?","answerEs":"La denominación de demonios gentiles","answerKo":"이방 귀신의 교단","verseEs":"Ap 17:5, Ap 18:2-4","verseKo":"계 17:5, 계 18:2-4"},{"id":86,"code":"Q86","chapterId":17,"chapterTitleEs":"17. Jerusalén, Babilonia, guerra, arma","chapterTitleKo":"17장. 예루살렘, 바벨론, 전쟁, 무기","termEs":"La guerra","termKo":"전쟁","questionEs":"¿Qué significa en parábola la guerra?","questionKo":"전쟁의 의미는?","answerEs":"Lucha de doctrinas","answerKo":"교리 싸움","verseEs":"Mt 24:7-8, Ef 6:12","verseKo":"마 24:7-8, 엡 6:12"},{"id":87,"code":"Q87","chapterId":17,"chapterTitleEs":"17. Jerusalén, Babilonia, guerra, arma","chapterTitleKo":"17장. 예루살렘, 바벨론, 전쟁, 무기","termEs":"El arma","termKo":"무기","questionEs":"¿Qué significa en parábola el arma?","questionKo":"무기의 의미는?","answerEs":"Palabra del testimonio","answerKo":"증거의 말씀","verseEs":"Ap 12:11, Ef 6:17","verseKo":"계 12:11, 엡 6:17"},{"id":88,"code":"Q88","chapterId":18,"chapterTitleEs":"18. Cielo, tierra, sol, luna, estrellas","chapterTitleKo":"18장. 하늘, 땅, 해, 달, 별","termEs":"El cielo","termKo":"하늘","questionEs":"¿Qué significa en parábola el cielo?","questionKo":"하늘의 의미는?","answerEs":"Tabernáculo del pueblo elegido","answerKo":"선민의 장막","verseEs":"Gn 37:9-11, Ap 13:6","verseKo":"창 37:9-11, 계 13:6"},{"id":89,"code":"Q89","chapterId":18,"chapterTitleEs":"18. Cielo, tierra, sol, luna, estrellas","chapterTitleKo":"18장. 하늘, 땅, 해, 달, 별","termEs":"El Nuevo cielo","termKo":"새 하늘","questionEs":"¿Qué significa en parábola el Nuevo cielo?","questionKo":"새 하늘의 의미는?","answerEs":"Nuevo tabernáculo","answerKo":"새 장막 / 증거장막성전","verseEs":"Ap 15:5, Ap 21:1","verseKo":"계 15:5, 계 21:1"},{"id":90,"code":"Q90","chapterId":18,"chapterTitleEs":"18. Cielo, tierra, sol, luna, estrellas","chapterTitleKo":"18장. 하늘, 땅, 해, 달, 별","termEs":"La tierra","termKo":"땅","questionEs":"¿Qué significa en parábola la tierra?","questionKo":"땅의 의미는?","answerEs":"Pueblo (santo)","answerKo":"백성 / 성도 / 흙으로 된 육체","verseEs":"Ap 13:3","verseKo":"계 13:3"},{"id":91,"code":"Q91","chapterId":18,"chapterTitleEs":"18. Cielo, tierra, sol, luna, estrellas","chapterTitleKo":"18장. 하늘, 땅, 해, 달, 별","termEs":"El cielo y la tierra en Isaías 1:2","termKo":"이사야 1:2의 하늘과 땅","questionEs":"¿Qué significan en parábola el cielo y la tierra en Isaías 1:2?","questionKo":"이사야 1:2의 하늘과 땅의 의미는?","answerEs":"Espíritus y carnes","answerKo":"영들과 육체들","verseEs":"Is 1:2","verseKo":"사 1:2"},{"id":92,"code":"Q92","chapterId":18,"chapterTitleEs":"18. Cielo, tierra, sol, luna, estrellas","chapterTitleKo":"18장. 하늘, 땅, 해, 달, 별","termEs":"El sol","termKo":"해","questionEs":"¿Quién es en parábola el sol?","questionKo":"해의 의미는?","answerEs":"Pastor","answerKo":"목자","verseEs":"Gn 37:9-11, Mt 24:29, Ap 6:12-13","verseKo":"창 37:9-11, 마 24:29, 계 6:12-13"},{"id":93,"code":"Q93","chapterId":18,"chapterTitleEs":"18. Cielo, tierra, sol, luna, estrellas","chapterTitleKo":"18장. 하늘, 땅, 해, 달, 별","termEs":"La luna","termKo":"달","questionEs":"¿Quién es en parábola la luna?","questionKo":"달의 의미는?","answerEs":"Evangelista","answerKo":"전도자 / 사역자","verseEs":"Gn 37:9-11, Mt 24:29, Ap 6:12-13","verseKo":"창 37:9-11, 마 24:29, 계 6:12-13"},{"id":94,"code":"Q94","chapterId":18,"chapterTitleEs":"18. Cielo, tierra, sol, luna, estrellas","chapterTitleKo":"18장. 하늘, 땅, 해, 달, 별","termEs":"Las estrellas","termKo":"별들","questionEs":"¿Quiénes son en parábola las estrellas?","questionKo":"별들의 의미는?","answerEs":"Santos","answerKo":"성도들","verseEs":"Gn 37:9-11, Mt 24:29, Ap 6:12-13","verseKo":"창 37:9-11, 마 24:29, 계 6:12-13"},{"id":95,"code":"Q95","chapterId":19,"chapterTitleEs":"19. Israel","chapterTitleKo":"19장. 이스라엘","termEs":"Israel","termKo":"이스라엘","questionEs":"¿Qué significa en parábola Israel?","questionKo":"이스라엘의 의미는?","answerEs":"Vencedor, pueblo elegido","answerKo":"이긴자, 선민","verseEs":"Gn 32:28, Jn 16:33, Ap 2-3","verseKo":"창 32:28, 요 16:33, 계 2-3"},{"id":96,"code":"Q96","chapterId":20,"chapterTitleEs":"20. Reino de los cielos y llave","chapterTitleKo":"20장. 천국과 열쇠","termEs":"El primer significado del reino de los cielos","termKo":"천국의 1번째 의미","questionEs":"¿Cuál es el primer significado del reino de los cielos?","questionKo":"천국의 1번째 의미는?","answerEs":"El reino de los cielos del mundo espiritual","answerKo":"영계 천국","verseEs":"Ap 4:1-8, Ap 21:2, 10","verseKo":"계 4:1-8, 계 21:2, 10"},{"id":97,"code":"Q97","chapterId":20,"chapterTitleEs":"20. Reino de los cielos y llave","chapterTitleKo":"20장. 천국과 열쇠","termEs":"El segundo significado del reino de los cielos","termKo":"천국의 2번째 의미","questionEs":"¿Cuál es el segundo significado del reino de los cielos?","questionKo":"천국의 2번째 의미는?","answerEs":"El reino de los cielos que es el tabernáculo del pueblo elegido anterior","answerKo":"이전 선민의 장막인 천국","verseEs":"Ap 13:6","verseKo":"계 13:6"},{"id":98,"code":"Q98","chapterId":20,"chapterTitleEs":"20. Reino de los cielos y llave","chapterTitleKo":"20장. 천국과 열쇠","termEs":"El tercer significado del reino de los cielos","termKo":"천국의 3번째 의미","questionEs":"¿Cuál es el tercer significado del reino de los cielos?","questionKo":"천국의 3번째 의미는?","answerEs":"Las 12 tribus recreadas y selladas","answerKo":"재창조되어 인 맞은 12지파","verseEs":"Ap 7, Ap 14","verseKo":"계 7, 계 14"},{"id":99,"code":"Q99","chapterId":20,"chapterTitleEs":"20. Reino de los cielos y llave","chapterTitleKo":"20장. 천국과 열쇠","termEs":"La llave","termKo":"열쇠","questionEs":"¿Qué significa en parábola la llave?","questionKo":"열쇠의 의미는?","answerEs":"Sabiduría para conocer el misterio","answerKo":"비밀을 아는 지혜","verseEs":"Lc 11:52, Ap 1:18","verseKo":"눅 11:52, 계 1:18"}];
+    const CHAPTERS = [{"id":1,"titleEs":"1. Parábola","titleKo":"1장. 비유"},{"id":2,"titleEs":"2. Semilla, campo, árbol, ave","titleKo":"2장. 씨, 밭, 나무, 새"},{"id":3,"titleEs":"3. Alimento y levadura","titleKo":"3장. 양식과 누룩"},{"id":4,"titleEs":"4. Recipiente, balanza, vara","titleKo":"4장. 그릇, 저울, 지팡이"},{"id":5,"titleEs":"5. Fuego, incensario, olla","titleKo":"5장. 불, 향로, 가마"},{"id":6,"titleEs":"6. Luz, tinieblas, ojo, ropa","titleKo":"6장. 빛, 어둠, 눈, 옷"},{"id":7,"titleEs":"7. Tesoro y rico","titleKo":"7장. 보화와 부자"},{"id":8,"titleEs":"8. Agua, manantial, río","titleKo":"8장. 물, 샘, 강"},{"id":9,"titleEs":"9. Mar, pescador, red, pez, barco","titleKo":"9장. 바다, 어부, 그물, 고기, 배"},{"id":10,"titleEs":"10. Bestia, cabeza, cuerno, cola","titleKo":"10장. 짐승, 머리, 뿔, 꼬리"},{"id":11,"titleEs":"11. Cordero, vino nuevo, aceite","titleKo":"11장. 어린양, 새 포도주, 감람유"},{"id":12,"titleEs":"12. Monte, piedra, ídolo","titleKo":"12장. 산, 돌, 우상"},{"id":13,"titleEs":"13. Sello, trompeta, cántico","titleKo":"13장. 인, 나팔, 노래"},{"id":14,"titleEs":"14. Cuatro seres vivientes, viento, aliento de vida","titleKo":"14장. 네 생물, 바람, 생기"},{"id":15,"titleEs":"15. Muerte, sepultura, resurrección","titleKo":"15장. 사망, 무덤, 부활"},{"id":16,"titleEs":"16. Esposo, esposa, viuda, huérfano","titleKo":"16장. 남편, 아내, 과부, 고아"},{"id":17,"titleEs":"17. Jerusalén, Babilonia, guerra, arma","titleKo":"17장. 예루살렘, 바벨론, 전쟁, 무기"},{"id":18,"titleEs":"18. Cielo, tierra, sol, luna, estrellas","titleKo":"18장. 하늘, 땅, 해, 달, 별"},{"id":19,"titleEs":"19. Israel","titleKo":"19장. 이스라엘"},{"id":20,"titleEs":"20. Reino de los cielos y llave","titleKo":"20장. 천국과 열쇠"}];
+    const SPECS = {"1":{"isShort":false,"koSlots":[["실체"],["비밀"],["감추기"],["비슷한"],["빗대어"]],"esSlots":[["ocultar"],["misterio"],["realidad"],["compara"],["similar"]]},"2":{"isShort":true,"koSlots":[["말씀"]],"esSlots":[["Palabra"]]},"3":{"isShort":true,"koSlots":[["거짓 교리"]],"esSlots":[["Falsa doctrina"]]},"4":{"isShort":false,"koSlots":[["사람의 마음","마음"],["세상"]],"esSlots":[["Corazón"],["mundo"]]},"5":{"isShort":false,"koSlots":[["예수님"],["교회들","교회"]],"esSlots":[["iglesias"],["Jesús"]]},"6":{"isShort":false,"koSlots":[["말씀"],["씨"],["거듭난"],["속사람","목자"]],"esSlots":[["hombre interior","pastor"],["renacido"],["semilla"],["palabra"]]},"7":{"isShort":true,"koSlots":[["제자"]],"esSlots":[["Discípulo"]]},"8":{"isShort":true,"koSlots":[["전도자"]],"esSlots":[["Evangelista"]]},"9":{"isShort":false,"koSlots":[["말씀"],["성도"]],"esSlots":[["Palabra"],["santo"]]},"10":{"isShort":true,"koSlots":[["영"]],"esSlots":[["Espíritu"]]},"11":{"isShort":true,"koSlots":[["악령"]],"esSlots":[["Espíritu maligno"]]},"12":{"isShort":true,"koSlots":[["말씀"]],"esSlots":[["Palabra"]]},"13":{"isShort":true,"koSlots":[["거짓 교리"]],"esSlots":[["Falsa doctrina"]]},"14":{"isShort":true,"koSlots":[["교리","교훈","교리 / 교훈"]],"esSlots":[["Doctrina"]]},"15":{"isShort":false,"koSlots":[["사단"],["교리","교훈"]],"esSlots":[["Doctrina"],["Satanás"]]},"16":{"isShort":false,"koSlots":[["신앙의 변화","마음이 부풂"]],"esSlots":[["cambio"],["fe"]]},"17":{"isShort":false,"koSlots":[["사람"],["교회"]],"esSlots":[["Hombre"],["iglesia"]]},"18":{"isShort":true,"koSlots":[["말씀"]],"esSlots":[["Palabra"]]},"19":{"isShort":false,"koSlots":[["사단의 말","거짓 교리"]],"esSlots":[["Palabra de Satanás","falsa doctrina"]]},"20":{"isShort":false,"koSlots":[["말씀"],["사람"]],"esSlots":[["Palabra"],["hombre"]]},"21":{"isShort":false,"koSlots":[["다스리는 권세","치리권"]],"esSlots":[["Autoridad"],["gobernar"]]},"22":{"isShort":true,"koSlots":[["말씀"]],"esSlots":[["Palabra"]]},"23":{"isShort":true,"koSlots":[["사람"]],"esSlots":[["Hombre"]]},"24":{"isShort":false,"koSlots":[["성도"],["기도"]],"esSlots":[["Oración"],["santos"]]},"25":{"isShort":false,"koSlots":[["올라가는"],["기도"]],"esSlots":[["oración"],["elevada"]]},"26":{"isShort":true,"koSlots":[["교회"]],"esSlots":[["Iglesia"]]},"27":{"isShort":false,"koSlots":[["생명"],["말씀"]],"esSlots":[["Palabra"],["vida"]]},"28":{"isShort":false,"koSlots":[["말씀"],["무지"]],"esSlots":[["Ignorancia"],["palabra"]]},"29":{"isShort":false,"koSlots":[["영"],["일꾼","사명자"]],"esSlots":[["Espíritu"],["obrero"]]},"30":{"isShort":false,"koSlots":[["영"],["일꾼","사명자"]],"esSlots":[["Espíritu"],["obrero"]]},"31":{"isShort":false,"koSlots":[["말씀"],["보아도"],["깨닫지 못하는"]],"esSlots":[["ve"],["palabra"],["entiende"]]},"32":{"isShort":false,"koSlots":[["말씀"],["들어도"],["깨닫지 못하는"]],"esSlots":[["oye"],["palabra"],["entiende"]]},"33":{"isShort":false,"koSlots":[["마음"],["행실"],["교리"]],"esSlots":[["Corazón"],["acciones"],["doctrina"]]},"34":{"isShort":true,"koSlots":[["옳은 행실"]],"esSlots":[["Acciones justas"]]},"35":{"isShort":true,"koSlots":[["거짓 교리"]],"esSlots":[["Falsa doctrina"]]},"36":{"isShort":true,"koSlots":[["말씀"]],"esSlots":[["Palabra"]]},"37":{"isShort":false,"koSlots":[["말씀","지식"],["많은"]],"esSlots":[["mucha"],["palabra","conocimiento"]]},"38":{"isShort":true,"koSlots":[["말씀"]],"esSlots":[["Palabra"]]},"39":{"isShort":false,"koSlots":[["목자"],["성전","교회"]],"esSlots":[["Pastor"],["templo","iglesia"]]},"40":{"isShort":false,"koSlots":[["제자"],["전도자"],["마음"]],"esSlots":[["Corazón"],["discípulos"],["evangelistas"]]},"41":{"isShort":true,"koSlots":[["세상"]],"esSlots":[["Mundo"]]},"42":{"isShort":true,"koSlots":[["목자","전도자","목자 / 전도자"]],"esSlots":[["Pastor","evangelista","Pastor (evangelista)"]]},"43":{"isShort":true,"koSlots":[["말씀"]],"esSlots":[["Palabra"]]},"44":{"isShort":true,"koSlots":[["사람"]],"esSlots":[["Hombre"]]},"45":{"isShort":false,"koSlots":[["교회"],["조직체"]],"esSlots":[["Organización"],["iglesia"]]},"46":{"isShort":true,"koSlots":[["거짓 목자"]],"esSlots":[["Falso pastor"]]},"47":{"isShort":false,"koSlots":[["배도자"],["멸망자"],["구원자"],["소속"]],"esSlots":[["traidor"],["destructor"],["salvador"],["pertenecientes"]]},"48":{"isShort":true,"koSlots":[["우두머리","목자","우두머리 / 목자"]],"esSlots":[["Líder","pastor","Líder (pastor)"]]},"49":{"isShort":false,"koSlots":[["권세","장로"],["머리"],["싸우는"]],"esSlots":[["autoridad","anciano"],["lucha"],["cabeza"]]},"50":{"isShort":true,"koSlots":[["거짓 선지자"]],"esSlots":[["Falso profeta"]]},"51":{"isShort":true,"koSlots":[["예수님"]],"esSlots":[["Jesús"]]},"52":{"isShort":false,"koSlots":[["예수님"],["생명"],["말씀"]],"esSlots":[["palabra"],["vida"],["Jesús"]]},"53":{"isShort":false,"koSlots":[["새"],["계시"],["말씀"]],"esSlots":[["palabra"],["revelada"],["nueva"]]},"54":{"isShort":true,"koSlots":[["거짓 교리"]],"esSlots":[["Falsa doctrina"]]},"55":{"isShort":false,"koSlots":[["새 목자"],["제자"]],"esSlots":[["Pastor nuevo"],["discípulos"]]},"56":{"isShort":false,"koSlots":[["증인"],["증거"],["말씀"]],"esSlots":[["palabra"],["testimonio"],["testigo"]]},"57":{"isShort":false,"koSlots":[["교회"],["성전"]],"esSlots":[["Iglesia"],["templo"]]},"58":{"isShort":false,"koSlots":[["배도의 산"],["멸망의 산"],["구원의 산"]],"esSlots":[["Monte de traición"],["monte de destrucción"],["monte de salvación"]]},"59":{"isShort":false,"koSlots":[["심판"],["말씀"],["권세"],["목자"]],"esSlots":[["Palabra"],["juicio"],["pastor"],["autoridad"]]},"60":{"isShort":false,"koSlots":[["거짓 스승","거짓 목자"]],"esSlots":[["Falso maestro","pastor"]]},"61":{"isShort":false,"koSlots":[["하나님"],["말씀"]],"esSlots":[["Palabra"],["Dios"]]},"62":{"isShort":false,"koSlots":[["사단"],["거짓 교리"],["말씀"]],"esSlots":[["Palabra"],["falsa doctrina"]]},"63":{"isShort":false,"koSlots":[["알리는","선포하는"],["말씀"]],"esSlots":[["Palabra"],["anuncia"]]},"64":{"isShort":true,"koSlots":[["사람","육체","사람 / 육체"]],"esSlots":[["Hombre"]]},"65":{"isShort":true,"koSlots":[["영"]],"esSlots":[["Espíritu"]]},"66":{"isShort":false,"koSlots":[["전파되는"],["말씀"]],"esSlots":[["Palabra"],["predica"]]},"67":{"isShort":false,"koSlots":[["구약"],["말씀"]],"esSlots":[["Palabra"],["Antiguo Testamento"]]},"68":{"isShort":false,"koSlots":[["신약"],["말씀"]],"esSlots":[["Palabra"],["Nuevo Testamento"]]},"69":{"isShort":false,"koSlots":[["계시록"],["실상"],["성취"],["말씀"]],"esSlots":[["Palabra"],["realidad"],["cumplida"],["Apocalipsis"]]},"70":{"isShort":true,"koSlots":[["네 천사장"]],"esSlots":[["Cuatro arcángeles"]]},"71":{"isShort":false,"koSlots":[["천사"],["심판"]],"esSlots":[["Ángel"],["juicio"]]},"72":{"isShort":false,"koSlots":[["천사"],["심판"]],"esSlots":[["Juicio"],["ángeles"]]},"73":{"isShort":false,"koSlots":[["천사"],["심판"],["보류","중단"]],"esSlots":[["Suspender"],["juicio"],["ángeles"]]},"74":{"isShort":false,"koSlots":[["생명"],["말씀"]],"esSlots":[["Palabra"],["vida"]]},"75":{"isShort":false,"koSlots":[["생명"],["말씀"],["없는"],["상태"]],"esSlots":[["Estado"],["sin"],["palabra"],["vida"]]},"76":{"isShort":false,"koSlots":[["거짓 교리"],["조직체"]],"esSlots":[["Organización"],["falsa doctrina"]]},"77":{"isShort":false,"koSlots":[["생명"],["말씀"],["다시 살아나는"]],"esSlots":[["revive"],["palabra"],["vida"]]},"78":{"isShort":true,"koSlots":[["영"]],"esSlots":[["Espíritu"]]},"79":{"isShort":true,"koSlots":[["육체"]],"esSlots":[["Carne"]]},"80":{"isShort":false,"koSlots":[["예수님"],["영육 결혼"],["성도"],["목자"]],"esSlots":[["santos"],["pastores"],["unen espiritualmente"],["Jesús"]]},"81":{"isShort":true,"koSlots":[["배도한 목자"]],"esSlots":[["Pastor traidor"]]},"82":{"isShort":false,"koSlots":[["배도한 목자"],["교인"]],"esSlots":[["congregados"],["pastor traidor"]]},"83":{"isShort":false,"koSlots":[["선민"],["교단","장막"]],"esSlots":[["denominación"],["pueblo elegido"]]},"84":{"isShort":false,"koSlots":[["새 선민의 장막","증거장막성전"]],"esSlots":[["nueva"],["organización","tabernáculo"],["pueblo elegido"],["vencedor"]]},"85":{"isShort":false,"koSlots":[["이방"],["귀신"],["교단"]],"esSlots":[["denominación"],["demonios"],["gentiles"]]},"86":{"isShort":true,"koSlots":[["교리 싸움"]],"esSlots":[["Lucha de doctrinas"]]},"87":{"isShort":false,"koSlots":[["증거"],["말씀"]],"esSlots":[["Palabra"],["testimonio"]]},"88":{"isShort":false,"koSlots":[["선민"],["장막"]],"esSlots":[["Tabernáculo"],["pueblo elegido"]]},"89":{"isShort":false,"koSlots":[["새 장막","증거장막성전"]],"esSlots":[["Nuevo"],["tabernáculo"]]},"90":{"isShort":false,"koSlots":[["백성","성도","흙으로 된 육체"]],"esSlots":[["Pueblo","santo"]]},"91":{"isShort":false,"koSlots":[["영들"],["육체들"]],"esSlots":[["Espíritus"],["carnes"]]},"92":{"isShort":true,"koSlots":[["목자"]],"esSlots":[["Pastor"]]},"93":{"isShort":true,"koSlots":[["전도자","사역자","전도자 / 사역자"]],"esSlots":[["Evangelista"]]},"94":{"isShort":true,"koSlots":[["성도들","성도"]],"esSlots":[["Santos"]]},"95":{"isShort":false,"koSlots":[["이긴자"],["선민"]],"esSlots":[["Vencedor"],["pueblo elegido"]]},"96":{"isShort":false,"koSlots":[["영계"],["천국"]],"esSlots":[["reino de los cielos"],["mundo espiritual"]]},"97":{"isShort":false,"koSlots":[["이전"],["선민"],["장막"],["천국"]],"esSlots":[["reino de los cielos"],["tabernáculo"],["pueblo elegido"],["anterior"]]},"98":{"isShort":false,"koSlots":[["재창조"],["인 맞은"],["12지파"]],"esSlots":[["12 tribus"],["recreadas"],["selladas"]]},"99":{"isShort":false,"koSlots":[["비밀"],["지혜"]],"esSlots":[["Sabiduría"],["misterio"]]}};
+    const KO_BOOKS = [["요한계시록","계"],["계시록","계"],["계시","계"],["창세기","창"],["출애굽기","출"],["레위기","레"],["민수기","민"],["신명기","신"],["여호수아","수"],["사사기","삿"],["룻기","룻"],["사무엘상","삼상"],["사무엘하","삼하"],["열왕기상","왕상"],["열왕기하","왕하"],["역대상","대상"],["역대하","대하"],["에스라","스"],["느헤미야","느"],["에스더","에"],["욥기","욥"],["시편","시"],["잠언","잠"],["전도서","전"],["아가서","아"],["아가","아"],["이사야","사"],["예레미야애가","애"],["애가","애"],["예레미야","렘"],["에스겔","겔"],["다니엘","단"],["호세아","호"],["요엘","욜"],["아모스","암"],["오바댜","옵"],["요나","욘"],["미가","미"],["나훔","나"],["하박국","합"],["스바냐","습"],["학개","학"],["스가랴","슥"],["말라기","말"],["마태복음","마"],["마태","마"],["마가복음","막"],["마가","막"],["누가복음","눅"],["누가","눅"],["요한복음","요"],["요한","요"],["사도행전","행"],["사도","행"],["로마서","롬"],["고린도전서","고전"],["고린도전","고전"],["고린도후서","고후"],["고린도후","고후"],["갈라디아서","갈"],["갈라디아","갈"],["에베소서","엡"],["에베소","엡"],["빌립보서","빌"],["빌립보","빌"],["골로새서","골"],["골로새","골"],["데살로니가전서","살전"],["데살로니가전","살전"],["데살로니가후서","살후"],["데살로니가후","살후"],["디모데전서","딤전"],["디모데전","딤전"],["디모데후서","딤후"],["디모데후","딤후"],["디도서","딛"],["디도","딛"],["빌레몬서","몬"],["빌레몬","몬"],["히브리서","히"],["히브리","히"],["야고보서","약"],["야고보","약"],["베드로전서","벧전"],["베드로전","벧전"],["벧전서","벧전"],["베드로후서","벧후"],["베드로후","벧후"],["벧후서","벧후"],["요한일서","요일"],["요한1서","요일"],["요한이서","요이"],["요한2서","요이"],["요한삼서","요삼"],["요한3서","요삼"],["유다서","유"]];
+    const ES_BOOKS = [["1pedro","1p"],["1 pedro","1p"],["2pedro","2p"],["2 pedro","2p"],["1juan","1jn"],["1 juan","1jn"],["2juan","2jn"],["2 juan","2jn"],["3juan","3jn"],["3 juan","3jn"],["1corintios","1co"],["1 corintios","1co"],["2corintios","2co"],["2 corintios","2co"],["1tesalonicenses","1ts"],["1 tesalonicenses","1ts"],["2tesalonicenses","2ts"],["2 tesalonicenses","2ts"],["1timoteo","1ti"],["1 timoteo","1ti"],["2timoteo","2ti"],["2 timoteo","2ti"],["1samuel","1s"],["1 samuel","1s"],["2samuel","2s"],["2 samuel","2s"],["1reyes","1r"],["1 reyes","1r"],["2reyes","2r"],["2 reyes","2r"],["1cronicas","1cr"],["1 cronicas","1cr"],["2cronicas","2cr"],["2 cronicas","2cr"],["genesis","gn"],["exodo","ex"],["levitico","lv"],["numeros","nm"],["deuteronomio","dt"],["josue","jos"],["jueces","jue"],["rut","rt"],["esdras","esd"],["nehemias","neh"],["ester","est"],["job","job"],["salmos","sal"],["salmo","sal"],["proverbios","pr"],["eclesiastes","ec"],["cantares","cnt"],["isaias","is"],["jeremias","jer"],["lamentaciones","lm"],["ezequiel","ez"],["daniel","dn"],["oseas","os"],["joel","jl"],["amos","am"],["abdias","abd"],["jonas","jon"],["miqueas","mi"],["nahum","nah"],["habacuc","hab"],["sofonias","sof"],["hageo","hag"],["zacarias","zac"],["malaquias","mal"],["mateo","mt"],["marcos","mr"],["lucas","lc"],["juan","jn"],["hechos","hch"],["romanos","ro"],["galatas","ga"],["efesios","ef"],["filipenses","fil"],["colosenses","col"],["tito","tit"],["filemon","flm"],["hebreos","heb"],["hebreos","he"],["santiago","stg"],["judas","jud"],["apocalipsis","ap"]];
+    let lang = null;
+    let studyMethod = 'card'; // 'card' | 'typing'
+    let currentDay = 1;
+    let originFilter = 'ALL';
+    let hideAnswers = true;
+    let revealedCards = {};
+    let reviewMap = {};
+    let typingState = {};
+
+    function toggleCardReveal(qid) {
+      const currentlyShown = !hideAnswers || Boolean(revealedCards[qid]);
+      if (!hideAnswers) {
+        hideAnswers = true;
+        revealedCards = {};
+      } else {
+        revealedCards[qid] = !currentlyShown;
+      }
+      render();
+    }
+
+    function normalizeCompact(text) {
+      return (text || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .normalize('NFC')
+        .replace(/[^a-z0-9가-힣]/g, '');
+    }
+
+    function normalizeVerseInput(raw, l) {
+      let s = (raw || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .normalize('NFC');
+      const dict = l === 'ko' ? KO_BOOKS : ES_BOOKS;
+      for (let i = 0; i < dict.length; i++) {
+        s = s.replace(new RegExp(dict[i][0], 'g'), dict[i][1]);
+      }
+      return s;
+    }
+
+    function parseTargetReferences(targetVerseRaw) {
+      if (!targetVerseRaw || targetVerseRaw.trim() === '-') return [];
+      const parts = targetVerseRaw.split(',').map(s => s.trim());
+      const refs = [];
+      for (let i = 0; i < parts.length; i++) {
+        const p = parts[i];
+        if (/^\d+/.test(p) && !isNaN(Number(p.trim()))) {
+          if (refs.length > 0) {
+            refs[refs.length - 1].numbers.push(p.trim());
+            refs[refs.length - 1].rawDisplay += ', ' + p.trim();
+          }
+          continue;
+        }
+        const book = p.match(/^([가-힣]+|[a-zA-Z0-9]+)/)?.[1] || '';
+        const numbers = (p.match(/\d+/g) || []);
+        refs.push({ rawDisplay: p, book, numbers });
+      }
+      return refs;
+    }
+
+    function isVerseReferenceSatisfied(normUser, compactUser, userNumbers, ref, l) {
+      const normBook = normalizeVerseInput(ref.book, l).trim();
+      if (!normUser.includes(normBook) && !compactUser.includes(normBook)) {
+        return false;
+      }
+      const essentialNums = ref.numbers.length <= 1 ? ref.numbers : [ref.numbers[0], ref.numbers[1]];
+      const hasDiscrete = essentialNums.every(n => userNumbers.includes(n));
+      if (hasDiscrete) return true;
+
+      const bookIdx = compactUser.indexOf(normBook);
+      if (bookIdx !== -1) {
+        let searchIdx = bookIdx + normBook.length;
+        let allFound = true;
+        for (let i = 0; i < essentialNums.length; i++) {
+          const num = essentialNums[i];
+          const nextIdx = compactUser.indexOf(num, searchIdx);
+          if (nextIdx === -1) {
+            allFound = false;
+            break;
+          }
+          searchIdx = nextIdx + num.length;
+        }
+        if (allFound) return true;
+      }
+      return false;
+    }
+
+    function checkTyping(qid) {
+      const q = QUESTIONS.find(x => x.id === qid);
+      if (!q) return;
+      const ansEl = document.getElementById('ans-' + qid);
+      const verEl = document.getElementById('ver-' + qid);
+      const userAns = ansEl ? ansEl.value : '';
+      const userVer = verEl ? verEl.value : '';
+      const spec = SPECS[qid];
+      const rawTarget = lang === 'ko' ? q.answerKo : q.answerEs;
+      const compactTarget = normalizeCompact(rawTarget);
+      const rawSlots = spec ? (lang === 'ko' ? spec.koSlots : spec.esSlots) : [];
+      const slots = rawSlots
+        .map(slot => slot.filter(w => compactTarget.includes(normalizeCompact(w))))
+        .filter(slot => slot.length > 0);
+      const isShort = spec && spec.isShort && slots.length === 1;
+      const compactAns = normalizeCompact(userAns);
+      let ansOk = false;
+
+      if (compactAns) {
+        if (compactAns === compactTarget) {
+          ansOk = true;
+        } else if (isShort) {
+          const cleaned = lang === 'ko'
+            ? compactAns.replace(/(이다|입니다|임|란|이란|은|는|이|가|을|를)$/g, '')
+            : compactAns.replace(/^(el|la|los|las|un|una)/g, '');
+          ansOk = slots[0].some(v => normalizeCompact(v) === cleaned || normalizeCompact(v) === compactAns);
+        } else {
+          ansOk = slots.every(slot => slot.some(v => compactAns.includes(normalizeCompact(v))));
+        }
+      }
+
+      const rawVerse = (lang === 'ko' ? q.verseKo : q.verseEs).trim();
+      let verOk = true;
+      if (rawVerse !== '-' && rawVerse.length > 0) {
+        const refs = parseTargetReferences(rawVerse);
+        const normUser = normalizeVerseInput(userVer, lang);
+        if (!normUser.trim()) {
+          verOk = false;
+        } else {
+          const userNumbers = (normUser.match(/\d+/g) || []);
+          const compactUser = normUser.replace(/[^가-힣a-zA-Z0-9]/g, '');
+          verOk = refs.every(ref => isVerseReferenceSatisfied(normUser, compactUser, userNumbers, ref, lang));
+        }
+      }
+
+      typingState[qid] = {
+        userAns,
+        userVer,
+        checked: true,
+        ok: ansOk && verOk
+      };
+      render();
+      const focusEl = document.getElementById('ans-' + qid);
+      if (focusEl) focusEl.focus();
+    }
+
+    function focusNextTypingCard(nextQid) {
+      const el = document.getElementById('ans-' + nextQid);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.focus();
+      }
+    }
+
+    function handleTypingKey(event, qid, nextQid) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        const st = typingState[qid];
+        const ansVal = (document.getElementById('ans-' + qid) || {}).value || '';
+        const verVal = (document.getElementById('ver-' + qid) || {}).value || '';
+        if (st && st.checked && st.ok && st.userAns === ansVal && st.userVer === verVal) {
+          focusNextTypingCard(nextQid);
+        } else {
+          checkTyping(qid);
+        }
+      }
+    }
+
+    function speakEcuador(text) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      const voices = window.speechSynthesis.getVoices() || [];
+      let v = voices.find(x => x.lang.toLowerCase().replace('_','-') === 'es-ec')
+        || voices.find(x => ['es-419','es-co','es-pe','es-mx','es-us'].some(p => x.lang.toLowerCase().replace('_','-').startsWith(p)))
+        || voices.find(x => x.lang.toLowerCase().startsWith('es') && x.lang.toLowerCase().replace('_','-') !== 'es-es');
+      if (v) {
+        u.voice = v;
+        u.lang = v.lang;
+      } else {
+        u.lang = 'es-EC';
+      }
+      u.rate = 0.94;
+      window.speechSynthesis.speak(u);
+    }
+
+    function getSchedule(day) {
+      if (day === 1) return { newIds: [1,2,3,4,5,6,7,8,9,10], poolIds: [], revCount: 0 };
+      if (day <= 18) {
+        const s = 10 + (day - 2) * 5 + 1;
+        const newIds = [s, s+1, s+2, s+3, s+4];
+        const poolIds = [];
+        for (let i = 1; i < s; i++) poolIds.push(i);
+        return { newIds, poolIds, revCount: 5 };
+      }
+      if (day === 19) {
+        return { newIds: [96,97,98,99], poolIds: Array.from({length:95},(_,i)=>i+1), revCount: 6 };
+      }
+      return { newIds: [], poolIds: Array.from({length:99},(_,i)=>i+1), revCount: 10 };
+    }
+
+    function pickRandom(pool, count) {
+      const copy = [...pool];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy.slice(0, count).sort((a,b) => a - b);
+    }
+
+    function ensureReviews(day, force) {
+      const sched = getSchedule(day);
+      if (sched.revCount === 0) return [];
+      if (!reviewMap[day] || force) {
+        reviewMap[day] = pickRandom(sched.poolIds, sched.revCount);
+      }
+      return reviewMap[day];
+    }
+
+    function setLanguage(l) {
+      lang = l;
+      render();
+    }
+
+    function render() {
+      const root = document.getElementById('app');
+      if (!lang) {
+        root.innerHTML = '<div class="gate-wrap"><div class="gate-box">' +
+          '<h1 style="font-family:Fraunces,serif;font-size:30px;margin-bottom:6px;">Parábolas 99</h1>' +
+          '<p style="color:#64748B;font-size:13px;">언어 선택 · Seleccione idioma</p>' +
+          '<div class="gate-grid">' +
+            '<button class="lang-btn" onclick="setLanguage(\'ko\')">' +
+              '<h2>한국어</h2>' +
+              '<p>한국어 전용 · 1. 카드 / 2. 타이핑</p>' +
+            '</button>' +
+            '<button class="lang-btn" onclick="setLanguage(\'es\')">' +
+              '<h2>Español</h2>' +
+              '<p>Español · Audio Ecuador</p>' +
+            '</button>' +
+          '</div>' +
+        '</div></div>';
+        return;
+      }
+
+      const isKo = lang === 'ko';
+      const sched = getSchedule(currentDay);
+      const revIds = ensureReviews(currentDay, false);
+
+      const cards = [];
+      function addForward(id, origin) {
+        const q = QUESTIONS.find(x => x.id === id);
+        if (!q) return;
+        cards.push({ q, origin });
+      }
+      sched.newIds.forEach(id => addForward(id, 'NEW'));
+      revIds.forEach(id => addForward(id, 'REVIEW'));
+
+      const filtered = cards.filter(c => originFilter === 'ALL' ? true : c.origin === originFilter);
+
+      let optionsHtml = '';
+      for (let d = 1; d <= 20; d++) {
+        const label = isKo ? (d + '일차 (10문항)') : ('Día ' + d + ' (10 preg.)');
+        optionsHtml += '<option value="' + d + '" ' + (d === currentDay ? 'selected' : '') + '>' + label + '</option>';
+      }
+
+      const cardsHtml = filtered.map((c, idx) => {
+        const q = c.q;
+        const nextCard = filtered[(idx + 1) % filtered.length];
+        const nextQid = nextCard ? nextCard.q.id : q.id;
+        const originLabel = isKo
+          ? (c.origin === 'NEW' ? '신규' : '복습')
+          : (c.origin === 'NEW' ? 'Nueva' : 'Repaso');
+        const chapterLabel = isKo ? q.chapterTitleKo : q.chapterTitleEs;
+
+        const promptText = isKo ? q.questionKo : q.questionEs;
+        const answerText = isKo ? q.answerKo : q.answerEs;
+        const verseText = isKo ? ('성구: ' + q.verseKo) : ('Versículo: ' + q.verseEs);
+
+        const ttsButtons = !isKo
+          ? ('<div style="display:flex;gap:6px;">' +
+              '<button class="btn" style="padding:4px 10px;font-size:12px;" onclick="speakEcuador(' + JSON.stringify(q.questionEs) + ')">Pregunta (EC)</button>' +
+              '<button class="btn" style="padding:4px 10px;font-size:12px;" onclick="speakEcuador(' + JSON.stringify(q.answerEs) + ')">Respuesta (EC)</button>' +
+            '</div>')
+          : '';
+
+        let bodyHtml = '';
+        if (studyMethod === 'card') {
+          const isShown = !hideAnswers || Boolean(revealedCards[q.id]);
+          if (isShown) {
+            bodyHtml = '<div class="answer-box" onclick="toggleCardReveal(' + q.id + ')">' +
+              '<div class="ans-main">' + answerText + '</div>' +
+              '<div class="verse">' + verseText + '</div>' +
+            '</div>';
+          } else {
+            bodyHtml = '<button type="button" class="answer-cover-card" onclick="toggleCardReveal(' + q.id + ')">' +
+              (isKo ? '정답 확인' : 'Ver respuesta') +
+            '</button>';
+          }
+        } else {
+          const st = typingState[q.id] || { userAns: '', userVer: '', checked: false, ok: false };
+          const nextActive = Boolean(st.checked && st.ok);
+          bodyHtml = '<div class="typing-row">' +
+            '<input id="ans-' + q.id + '" onkeydown="handleTypingKey(event,' + q.id + ',' + nextQid + ')" value="' + (st.userAns || '').replace(/"/g, '&quot;') + '" placeholder="' + (isKo ? '정답 입력 (단답형 정확히 / 문장 핵심단어 모두)' : 'Respuesta (exacta o palabras clave)') + '" />' +
+            '<input id="ver-' + q.id + '" onkeydown="handleTypingKey(event,' + q.id + ',' + nextQid + ')" value="' + (st.userVer || '').replace(/"/g, '&quot;') + '" placeholder="' + (isKo ? '증거성구 입력 (성경이름+숫자 / 띄어쓰기·쉼표 무관)' : 'Versículo (nombre y números / espacios libres)') + '" />' +
+          '</div>' +
+          '<div style="margin-top:8px;display:flex;justify-content:flex-end;gap:8px;">' +
+            '<button class="btn btn-primary" onclick="checkTyping(' + q.id + ')">' + (isKo ? '정답 확인' : 'Comprobar') + '</button>' +
+            '<button class="btn" ' + (nextActive ? 'style="background:#059669;color:#fff;border-color:#059669;" onclick="focusNextTypingCard(' + nextQid + ')"' : 'disabled style="opacity:0.45;cursor:not-allowed;"') + '>' +
+              (nextActive ? (isKo ? '다음 (엔터 ↵)' : 'Siguiente (Intro ↵)') : (isKo ? '다음' : 'Siguiente')) +
+            '</button>' +
+          '</div>' +
+          (st.checked
+            ? ('<div class="answer-box" style="margin-top:10px;border-color:' + (st.ok ? '#059669' : '#EF4444') + ';">' +
+                '<div style="font-size:12px;font-weight:700;margin-bottom:4px;color:' + (st.ok ? '#059669' : '#DC2626') + ';">' +
+                  (st.ok ? (isKo ? '✓ 정답 (핵심어·성구 일치)' : '✓ Correcto') : (isKo ? '✕ 오답 · 정답 및 성구 확인' : '✕ Incorrecto')) +
+                '</div>' +
+                '<div class="ans-main">' + answerText + '</div>' +
+                '<div class="verse">' + verseText + '</div>' +
+              '</div>')
+            : '');
+        }
+
+        return '<div class="card">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">' +
+            '<div class="meta">' + String(idx + 1).padStart(2, '0') + '. ' + q.code + ' · ' + originLabel + ' · ' + chapterLabel + '</div>' +
+            ttsButtons +
+          '</div>' +
+          '<div class="prompt-text">' + promptText + '</div>' +
+          bodyHtml +
+        '</div>';
+      }).join('');
+
+      root.innerHTML =
+        '<header>' +
+          '<div class="brand">' + (isKo ? '비유 99' : 'Parábolas 99') + '</div>' +
+          '<div style="display:flex;gap:8px;">' +
+            '<button class="btn ' + (studyMethod === 'card' ? 'btn-primary' : '') + '" onclick="studyMethod=\'card\';render()">' + (isKo ? '1. 카드' : '1. Tarjeta') + '</button>' +
+            '<button class="btn ' + (studyMethod === 'typing' ? 'btn-primary' : '') + '" onclick="studyMethod=\'typing\';render()">' + (isKo ? '2. 타이핑' : '2. Escritura') + '</button>' +
+            (studyMethod === 'card' ? '<button class="btn" onclick="hideAnswers=!hideAnswers;revealedCards={};render()">' + (isKo ? (hideAnswers ? '정답 전체 보기' : '정답 전체 가리기') : (hideAnswers ? 'Ver todo' : 'Ocultar todo')) + '</button>' : '') +
+            (currentDay >= 2 ? '<button class="btn" onclick="ensureReviews(currentDay,true);render()">' + (isKo ? '복습 다시 뽑기' : 'Sortear repaso') + '</button>' : '') +
+            '<button class="btn" onclick="setLanguage(null)">' + (isKo ? '언어 변경' : 'Idioma') + '</button>' +
+          '</div>' +
+        '</header>' +
+        '<div class="container">' +
+          '<div class="controls-bar">' +
+            '<div style="display:flex;gap:10px;align-items:center;">' +
+              '<select onchange="currentDay=Number(this.value);render()">' + optionsHtml + '</select>' +
+            '</div>' +
+            '<div style="display:flex;gap:6px;">' +
+              '<button class="btn" onclick="originFilter=\'ALL\';render()">' + (isKo ? '전체 (10)' : 'Todo (10)') + '</button>' +
+              '<button class="btn" onclick="originFilter=\'NEW\';render()">' + (isKo ? '신규' : 'Nuevas') + '</button>' +
+              '<button class="btn" onclick="originFilter=\'REVIEW\';render()">' + (isKo ? '복습' : 'Repaso') + '</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="grid">' + cardsHtml + '</div>' +
+        '</div>';
+    }
+
+    render();
+  </script>
+</body>
+</html>
